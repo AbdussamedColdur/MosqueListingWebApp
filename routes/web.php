@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Camii;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.index');
-});
+
+Route::get('/',[Camii::class,'goster2'] );
+Route::get('/filitre',[Camii::class,'goster'] );
+Route::get('/ltf/{id}',[Camii::class,'detayli'] );
