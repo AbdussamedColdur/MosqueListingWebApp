@@ -10,9 +10,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto">
-                    <a href="index.html" class="nav-item nav-link active">Ana Sayfa</a>
-                    <a href="about.html" class="nav-item nav-link">Diyanet İşleri Başkanlığı</a>
-                    <a href="product.html" class="nav-item nav-link">Cimer</a>
+                    <a href="/" class="nav-item nav-link active">Ana Sayfa</a>
+                    <a href="https://www.diyanet.gov.tr/tr-TR" class="nav-item nav-link">Diyanet İşleri Başkanlığı</a>
+                    <a href="https://www.cimer.gov.tr/" class="nav-item nav-link">Cimer</a>
                 </div>
                 <div class="border-start ps-4 d-none d-lg-block">
                     <button type="button" class="btn btn-sm p-0"><i class="fa fa-search"></i></button>
@@ -21,4 +21,3 @@
         </nav>
     </div>
 </div>
-<!-- Navbar End -->
