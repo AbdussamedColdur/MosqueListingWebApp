@@ -16,7 +16,7 @@
             $x = 'foto' . $i;
             ?>
             <div class="carousel-item <?php if ($i === 1) echo 'active'; ?>">
-                <img style="height:1080px;width: 1920px;" class="w-100" src="data:image/jpg;base64,{{ $camiler[0][$x] }}" alt="Image">
+                <img  class="w-100" src="data:image/jpg;base64,{{ $camiler[0][$x] }}" alt="Image">
                 <div class="carousel-caption">
                     <div class="container">
                         <div class="row justify-content-center">

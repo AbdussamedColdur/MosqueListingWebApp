@@ -11,13 +11,15 @@ class Camii extends Controller
     public function goster2(){
 
         $camiler = CamiServices::getMosquesByCity2();
-// Base64 veriyi çöz
-
-// Boyutları değiştirin
 
 
         return view('layouts.index',['camiler'=>$camiler]);
     }
+
+
+
+
+
     public function detayli($id){
 
         $camiler = CamiServices::getDetay($id);
@@ -25,6 +27,11 @@ class Camii extends Controller
 
         return view('layouts.infoPage',['camiler'=>$camiler]);
     }
+
+
+
+
+
 
     public function goster(Request $request)
     {
@@ -39,11 +46,6 @@ if(!empty($data)){
 
         $camiler = CamiServices::filitreleme($sehir, $ilce,$isim);
 
-        if(empty($camiler)){
-            return view('layouts.index2');
-
-
-        }
 
         return view('layouts.index', ['camiler' => $camiler]);
     } else {
@@ -52,23 +54,15 @@ if(!empty($data)){
         $isim=$data['ad'];
 
         $camiler = CamiServices::filitreleme($sehir, $ilce,$isim);
-        if(empty($camiler)){
 
-
-
-            return view('goster2');
-
-
-        }
         return view('layouts.index', ['camiler' => $camiler]);
 
     }
 }else{
 
-    $camiler = CamiServices::getMosquesByCity2();
-   //dd($camiler);
 
-    return view('layouts.index', ['camiler' => $camiler]);
+    return view('layouts.index');
+
 
 }
 

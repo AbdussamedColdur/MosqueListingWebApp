@@ -2,56 +2,6 @@
 
 @section('content')
      <!-- Carousel Start -->
-     <style>
-  /* Form container style */
-  form {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 0 auto;
-    padding: 100px;
-    border: 1px solid #ccc;
-    border-radius: 1px;
-    background-color: #f9f9f9;
-  }
-
-  /* Label style */
-  label {
-    flex: 0 0 100px;
-    margin-right: 10px;
-    font-weight: bold;
-  }
-
-  /* Input and select style */
-  input[type="text"],
-  select {
-    flex: 1;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    font-size: 14px;
-  }
-
-  /* Button style */
-  button[type="submit"] {
-    flex: 1;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-</style>
 
 
 
@@ -59,22 +9,26 @@
      <div class="container-fluid px-0 mb-5">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
+        <?php $i=0;?>
+        @if($camiler!=null)    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
             @foreach ($camiler as $index => $cami)
+
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                     <img style="height:1080px;width: 1920px;" src="data:image/jpg;base64,{{ $cami['foto1'] }}" alt="Decoded Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-7 text-center">
-
+                                    <!-- Bu kısma içerik eklemeyi unutmayın -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php $i=$index+1;?>
             @endforeach
         </div>
-
         <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
@@ -83,8 +37,12 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div>
-</div>
+    </div>@else
+
+@endif
+
+
+
 
     <!-- Carousel End -->
 
@@ -98,8 +56,8 @@
 
     <form  action="/filitre" method="get">
   @csrf
-  <label for="il">İl:</label>
-  <select style="" id="il" name="il" >
+
+  <select  id="il" name="il" >
     <option value="">İl seçin</option>
     <?php
     use Illuminate\Support\Facades\DB;
@@ -114,23 +72,33 @@
     <?php endforeach; ?>
   </select>
 
-  <label  for="ilce">İlçe:</label>
+
   <select id="ilce" name="ilce" >
     <option value="">İlçe seçin</option>
   </select>
 
-  <label for="ad">Ad:</label>
-  <input type="text" id="ad" name="ad" ><br>
+
+  <input type="text" id="ad" name="ad" placeholder="cami adi giriniz" ><br>
 
   <button type="submit">Gönder</button>
 </form>
 
+<p style="margin-left: -10px;" class="fs-5 fw-medium fst-italic text-primary">
+@if($i==0)
+       <?php echo  "Hic sonuc bulunamadi "; ?>
+@else
+
+    <?php echo $i . " &nbsp;" . "cami siralandi"; ?>
+
+@endif
+
+</p>
 
 
 
 
 
-            </div>
+</div>
             <div class="row g-4">
     <?php for ($i = 0; $i < count($camiler); $i++) { ?>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -146,7 +114,6 @@
             </div>
         </div>
     <?php } ?>
-
 
 
     <script>
