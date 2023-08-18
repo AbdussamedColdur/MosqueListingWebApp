@@ -54,48 +54,54 @@
         <div class="container">
             <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <p class="fs-5 fw-medium fst-italic text-primary">Camiler</p>
-
             </div>
 
+
+
+<div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+
     <form  action="/filitre" method="get">
-  @csrf
+        @csrf
 
-  <select  id="il" name="il" >
-    <option value="">İl seçin</option>
-    <?php
-    use Illuminate\Support\Facades\DB;
+        <select  id="il" name="il" >
+          <option value="">İl seçin</option>
+          <?php
+          use Illuminate\Support\Facades\DB;
 
-    $il = DB::table('il')->select('*')->get();
-    $ilArrayIsim = $il->pluck('isim')->toArray();
-    $ilArrayId = $il->pluck('il_no')->toArray();
-    ?>
+          $il = DB::table('il')->select('*')->get();
+          $ilArrayIsim = $il->pluck('isim')->toArray();
+          $ilArrayId = $il->pluck('il_no')->toArray();
+          ?>
 
-    <?php foreach ($ilArrayIsim as $ilName): ?>
-      <option value="<?php echo $ilName; ?>"><?php echo $ilName; ?></option>
-    <?php endforeach; ?>
-  </select>
-
-
-  <select id="ilce" name="ilce" >
-    <option value="">İlçe seçin</option>
-  </select>
+          <?php foreach ($ilArrayIsim as $ilName): ?>
+            <option value="<?php echo $ilName; ?>"><?php echo $ilName; ?></option>
+          <?php endforeach; ?>
+        </select>
 
 
-  <input type="text" id="ad" name="ad" placeholder="cami adi giriniz" ><br>
+        <select id="ilce" name="ilce" >
+          <option value="">İlçe seçin</option>
+        </select>
 
-  <button type="submit">Gönder</button>
-</form>
 
-<p style="margin-left: -10px;" class="fs-5 fw-medium fst-italic text-primary">
-@if($i==0)
-       <?php echo  "Hic sonuc bulunamadi "; ?>
-@else
+        <input type="text" id="ad" name="ad" placeholder="cami adi giriniz" ><br>
 
-    <?php echo $i . " &nbsp;" . "cami siralandi"; ?>
+        <button type="submit">Gönder</button>
+      </form>
 
-@endif
+    <p style="margin-left: -10px;" class="fs-5 fw-medium fst-italic text-primary">
+        @if($i==0)
+               <?php echo  "Hic sonuc bulunamadi "; ?>
+        @else
 
-</p>
+            <?php echo $i . " &nbsp;" . "cami siralandi"; ?>
+
+        @endif
+
+        </p>
+</div>
+
+
 
 
 
