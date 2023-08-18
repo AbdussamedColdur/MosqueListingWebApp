@@ -2,7 +2,7 @@
 <div class="container-fluid bg-white sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <img class="img-fluid" src="{{asset('../assets/img/images.png')}}" alt="Logo">
             </a>
             <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
