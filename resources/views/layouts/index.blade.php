@@ -15,12 +15,12 @@
             @foreach ($camiler as $index => $cami)
 
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <img style="height:1080px;width: 1920px;" src="data:image/jpg;base64,{{ $cami['foto1'] }}" alt="Decoded Image">
+                    <img  src="data:image/jpg;base64,{{ $cami['foto1'] }}" alt="Decoded Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-7 text-center">
-                                    <!-- Bu kısma içerik eklemeyi unutmayın -->
+
                                 </div>
                             </div>
                         </div>
@@ -40,6 +40,9 @@
     </div>@else
 
 @endif
+        </div>
+    </div>
+     </div>
 
 
 
@@ -52,7 +55,7 @@
             <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <p class="fs-5 fw-medium fst-italic text-primary">Camiler</p>
 
-
+            </div>
 
     <form  action="/filitre" method="get">
   @csrf
@@ -98,7 +101,7 @@
 
 
 
-</div>
+
             <div class="row g-4">
     <?php for ($i = 0; $i < count($camiler); $i++) { ?>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
