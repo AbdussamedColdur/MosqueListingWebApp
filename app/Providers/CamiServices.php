@@ -152,7 +152,6 @@ foreach ($json as $camii) {
 
         $ilceid = $camii['Id'];
 
-
         $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
         $ilcename = $ilcenameResult[0]->name;
 
