@@ -64,7 +64,7 @@
                         <p class="fs-5 fw-medium fst-italic text-primary">Camii Hakkinda</p>
                         <h1 class="display-6">{{$camiler[0]['Title']}}</h1>
                     </div>
-                    <div class="row g-3 mb-2">
+                    <div class="row g-3 mb-2  CC">
                         <div class="col-sm-8">
                             <h5>Cami hakkinda</h5>
                             <p class="mb-0">{{$camiler[0]['Description']}}</p>

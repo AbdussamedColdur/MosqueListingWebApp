@@ -56,8 +56,8 @@
                 <p class="fs-5 fw-medium fst-italic text-primary">Camiler</p>
 
             </div>
-
-    <form  action="/filitre" method="get">
+            <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <form  action="/filitre" method="get">
   @csrf
 
   <select  id="il" name="il" >
@@ -96,28 +96,24 @@
 @endif
 
 </p>
-
-
-
-
-
+            </div>
 
             <div class="row g-4">
     <?php for ($i = 0; $i < count($camiler); $i++) { ?>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div id="frkn" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="store-item position-relative text-center">
-                <img style="height:600px;width: 400px;" src="data:image/jpg;base64,{{ $camiler[$i]['foto1'] }}" alt="Decoded Image">
+                <img class="responsive-image" src="data:image/jpg;base64,{{ $camiler[$i]['foto1'] }}" alt="Decoded Image">
                 <div class="p-4">
                     <h4 class="mb-3"><?= $camiler[$i]['Name'] ?></h4>
                     <p><?= $camiler[$i]['Address'] ?></p>
                 </div>
                 <div class="store-overlay">
-                    <a href="/ltf/<?= $camiler[$i]['Id']  ?>" class="btn btn-primary rounded-pill py-2 px-4 m-2">Daha fazla Detay <i class="fa fa-arrow-right ms-2"></i></a>
+                    <a href="/ltf/<?= $camiler[$i]['Id'] ?>" class="btn btn-primary rounded-pill py-2 px-4 m-2">Daha fazla Detay <i class="fa fa-arrow-right ms-2"></i></a>
                 </div>
             </div>
         </div>
     <?php } ?>
-
+</div>
 
     <script>
 

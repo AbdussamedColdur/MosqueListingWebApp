@@ -198,6 +198,34 @@
         object-fit: cover;
     }
 }
+@media (max-width: 768px) {
+
+
+    #header-carousel .carousel-item img {
+
+        width: 100%;
+        height: 100%;
+
+    }
+}
+/* For screens smaller than or equal to 767px (mobile) */
+@media (max-width: 767px) {
+    .responsive-image {
+        width: 320px;
+        height: 500px;
+        object-fit: cover;
+    }
+}
+
+/* For screens larger than 767px (web) */
+@media (min-width: 768px) {
+    .responsive-image {
+        width: 400px;
+        height: 600px;
+        object-fit: cover;
+    }
+}
+
 
 .page-header {
     background: linear-gradient(rgba(136, 180, 78, .7), rgba(136, 180, 78, .7)), url(../img/carousel-1.jpg) center center no-repeat;
