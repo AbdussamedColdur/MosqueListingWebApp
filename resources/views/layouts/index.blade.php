@@ -86,7 +86,7 @@
 
         <input type="text" id="ad" name="ad" placeholder="cami adi giriniz" ><br>
 
-        <button type="submit">Gönder</button>
+        <button type="submit">Ara</button>
       </form>
 
     <p style="margin-left: -10px;" class="fs-5 fw-medium fst-italic text-primary">
