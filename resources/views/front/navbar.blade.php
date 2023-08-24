@@ -14,9 +14,7 @@
                     <a href="https://www.diyanet.gov.tr/tr-TR" class="nav-item nav-link">Diyanet İşleri Başkanlığı</a>
                     <a href="https://www.cimer.gov.tr/" class="nav-item nav-link">Cimer</a>
                 </div>
-                <div class="border-start ps-4 d-none d-lg-block">
-                    <button type="button" class="btn btn-sm p-0"><i class="fa fa-search"></i></button>
-                </div>
+
             </div>
         </nav>
     </div>
