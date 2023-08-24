@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Providers\CamiServices;
 use App\Models\logModel;
+use App\Helpers\UserSystemInfoHelper;
 
 class Camii extends Controller
 {
@@ -18,6 +19,7 @@ class Camii extends Controller
 
     public function detayli($id)
     {
+        $this->storeLog();
         $camiler = CamiServices::getDetay($id);
         return view('layouts.infoPage',['camiler'=>$camiler]);
     }
@@ -31,6 +33,7 @@ class Camii extends Controller
                 $ilce = $data['ilce'];
                 $isim=$data['ad'];
                 $camiler = CamiServices::filitreleme($sehir, $ilce,$isim);
+                $this->storeLog();
                 return view('layouts.index', ['camiler' => $camiler]);
             }
             else {
@@ -38,21 +41,30 @@ class Camii extends Controller
                 $ilce = null;
                 $isim=$data['ad'];
                 $camiler = CamiServices::filitreleme($sehir, $ilce,$isim);
+                $this->storeLog();
                 return view('layouts.index', ['camiler' => $camiler]);
             }
         }
         else{
+            $this->storeLog();
             return view('layouts.index');
         }
     }
 
     public function storeLog(){
+
+        $getip = UserSystemInfoHelper::get_ip();
+        $getbrowser = UserSystemInfoHelper::get_browsers();
+        $getdevice = UserSystemInfoHelper::get_device();
+        $getos = UserSystemInfoHelper::get_os();
+
         $log = new logModel;
-        $log->ip_address = request()->ip();
+        $log->ip_address = $getip;
         $log->url = url()->current();
         $log->islemTürü = 1;
-        $log->platform = Agent::platform();
-        $log->device = Agent::device();
+        $log->platform = $getos;
+        $log->device = $getdevice;
+        $log->browser = $getbrowser;
         $log->save();
 
         return 'veri kaydedildi';

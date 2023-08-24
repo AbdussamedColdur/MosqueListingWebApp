@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('islemTürü');
             $table->string('platform');
             $table->string('device');
+            $table->string('browser');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('log_activity');
+        //
     }
 };
