@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Camii;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +15,6 @@ use App\Http\Controllers\Camii;
 */
 
 
-Route::get('/',[Camii::class,'goster2'] );
-Route::get('/filitre',[Camii::class,'goster'] );
-Route::get('/ltf/{id}',[Camii::class,'detayli'] );
-Route::get('log', [Camii::class, 'storeLog']);
+Route::get('/', [Camii::class, 'goster2']);
+Route::get('/filtre', [Camii::class, 'goster']);
+Route::get('/ltf/{id}', [Camii::class, 'detayli']);

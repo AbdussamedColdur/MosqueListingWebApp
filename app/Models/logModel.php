@@ -13,6 +13,7 @@ class logModel extends Model
         'url',
         'islemTürü',
         'platform',
-        'device'
+        'device',
+        'browser'
     ];
 }
