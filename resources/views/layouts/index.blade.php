@@ -4,8 +4,6 @@
      <!-- Carousel Start -->
 
 
-
-
      <div class="container-fluid px-0 mb-5">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -15,7 +13,9 @@
             @foreach ($camiler as $index => $cami)
 
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <img  src="data:image/jpg;base64,{{ $cami['foto1'] }}" alt="Decoded Image">
+
+@if(!empty($cami['Photos'][0]['Base64']))
+                    <img  src="data:image/jpg;base64,{{ $cami['Photos'][0]['Base64'] }}" alt="Decoded Image">@endif
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
@@ -99,21 +99,26 @@
             </div>
 
             <div class="row g-4">
-    <?php for ($i = 0; $i < count($camiler); $i++) { ?>
+    @foreach ($camiler as $cami)
         <div id="frkn" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="store-item position-relative text-center">
-                <img class="responsive-image" src="data:image/jpg;base64,{{ $camiler[$i]['foto1'] }}" alt="Decoded Image">
+
+                @if (!empty($cami['Photos'][0]['Base64']))
+                    <img style="width: 350px; height: 400px;" src="data:image/jpg;base64,{{ $cami['Photos'][0]['Base64'] }}" alt="Decoded Image">
+                @endif
+
                 <div class="p-4">
-                    <h4 class="mb-3"><?= $camiler[$i]['Name'] ?></h4>
-                    <p><?= $camiler[$i]['Address'] ?></p>
+                    <h4 class="mb-3">{{ $cami['Name'] }}</h4>
+                    <p>{{ $cami['Address'] }}</p>
                 </div>
                 <div class="store-overlay">
-                    <a href="/ltf/<?= $camiler[$i]['Id'] ?>" class="btn btn-primary rounded-pill py-2 px-4 m-2">Daha fazla Detay <i class="fa fa-arrow-right ms-2"></i></a>
+                    <a href="/ltf/{{ $cami['Id'] }}" class="btn btn-primary rounded-pill py-2 px-4 m-2">Daha fazla Detay <i class="fa fa-arrow-right ms-2"></i></a>
                 </div>
             </div>
         </div>
-    <?php } ?>
+    @endforeach
 </div>
+
 
     <script>
 
@@ -130,8 +135,11 @@ const ilceOptions = {
     $ilceArray = $ilce->pluck('name')->toArray();
 
     echo "'$ilName': [";
+    echo"' ilce secin',";
     foreach ($ilceArray as $ilceName) {
+
       echo "'$ilceName', ";
+
     }
     echo "], ";
   }
@@ -155,6 +163,26 @@ function updateIlceOptions() {
 }
 
 ilSelect.addEventListener("change", updateIlceOptions);
+document.addEventListener('DOMContentLoaded', function() {
+  var adInput = document.getElementById('ad');
+  var submitButton = document.querySelector('button[type="submit"]');
+  var errorMessage = document.getElementById('error-message'); // Add an element for the error message
+
+  adInput.addEventListener('input', function() {
+    var inputValue = adInput.value;
+    var regex = /^[A-Za-z\s]+$/;
+
+    if (!regex.test(inputValue)) {
+      adInput.style.borderColor = 'red';
+      submitButton.disabled = true;
+      errorMessage.textContent = 'Yalnızca harf ve boşluk karakterleri kullanabilirsiniz.'; // Set the error message
+    } else {
+      adInput.style.borderColor = '';
+      submitButton.disabled = false;
+      errorMessage.textContent = ''; // Clear the error message
+    }
+  });
+});
 
 </script>
 

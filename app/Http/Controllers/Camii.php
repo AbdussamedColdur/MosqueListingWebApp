@@ -39,16 +39,29 @@ class Camii extends Controller
 
 
 if(!empty($data)){
+
     if ((!empty($data['il']) && !empty($data['ilce']))) {
-        $sehir = $data['il'];
+        if( $ilcead = $data['ilce']=="ilce secin"){
+            $ld=1;
+
+        }
+
         $ilce = $data['ilce'];
+        $ilce = DB::table("İlceler")->where('name', 'like', "$ilce")->select('id')->get();
+
+$ilceid=$ilce[0]->id;
+
+        $sehir = $data['il'];
+
         $isim=$data['ad'];
 
-        $camiler = CamiServices::filitreleme($sehir, $ilce,$isim);
+        $camiler = CamiServices::filitreleme($sehir, $ilceid,$isim);
 
 
         return view('layouts.index', ['camiler' => $camiler]);
-    } else {
+    }
+
+     else {
         $sehir = null;
         $ilce = null;
         $isim=$data['ad'];

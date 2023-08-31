@@ -198,7 +198,7 @@
         object-fit: cover;
     }
 }
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 
 
     #header-carousel .carousel-item img {
@@ -225,6 +225,8 @@
         object-fit: cover;
     }
 }
+
+
 
 
 .page-header {
