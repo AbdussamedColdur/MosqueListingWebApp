@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\görüntülemeLog;
+use App\Models\jsonLogModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Providers\CamiServices;
@@ -10,6 +11,9 @@ use App\Models\logModel;
 use App\Models\filtreLog;
 use App\Helpers\UserSystemInfoHelper;
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 
 class Camii extends Controller
@@ -19,23 +23,24 @@ class Camii extends Controller
         $this->storeLog();
         $camiler = CamiServices::getMosquesByCity2();
         return view('layouts.index', ['camiler' => $camiler]);
+
     }
 
     public function detayli($id)
     {
         $camiler = CamiServices::getDetay($id);
         $isim = $camiler[0]["Name"];
-
+        $this->jsonLog($camiler);
         $this->görüntülemeLog($isim);
         $this->storeLog();
 
         return view('layouts.infoPage', ['camiler' => $camiler]);
+
     }
 
     public function goster(Request $request)
     {
         $data = $request->all();
-        dd($data);
         if (!empty($data)) {
             if ((!empty($data['il']) && !empty($data['ilce']))) {
                 $sehir = $data['il'];
@@ -56,6 +61,7 @@ class Camii extends Controller
             $this->storeLog();
             return view('layouts.index');
         }
+
     }
 
     public function storeLog()
@@ -75,15 +81,7 @@ class Camii extends Controller
         $log->device = $getdevice;
         $log->browser = $browser;
         $log->save();
-    }
 
-    public function filtreLog()
-    {
-        $log = new filtreLog;
-        $log->cami_adi = '';
-        $log->il_adi = '';
-        $log->ilce_adi = '';
-        $log->save();
     }
 
     public function görüntülemeLog($camiAdi)
@@ -91,10 +89,26 @@ class Camii extends Controller
 
         $görüntülemeLog = görüntülemeLog::firstOrCreate(
             ['cami_adi' => $camiAdi],
-            ['görüntüleme_sayisi' => 0] // Set a default value for görüntüleme_sayisi
+            ['görüntüleme_sayisi' => 0]
         );
 
         $görüntülemeLog->increment('görüntüleme_sayisi');
+
+    }
+
+    public function jsonLog($jsonData)
+    {
+        $log = new jsonLogModel;
+
+        $jsonString = json_encode($jsonData);
+        $content = $jsonString;
+        $timestamp = now()->format('YmdHis');
+        $filePath = storage_path("asset('../../../public/jsonLog/logs.json");
+
+        File::put($filePath, $content);
+
+        $log->log_mesajı = "Json'dan veri çekildi. Çekilen Veriler saklandı.";
+        $log->save();
 
     }
 }
