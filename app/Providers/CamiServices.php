@@ -7,38 +7,44 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 
 use Intervention\Image\Facades\Image;
+use PhpParser\Node\Stmt\TryCatch;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
+use Termwind\Components\Dd;
 
 class CamiServices extends ServiceProvider
 {
-    public static function getDetay($id)
+    public static  function getDetay($id)
+
     {
-        $dnm = file_get_contents("http://localhost:3000/camiler");
+        $dnm = file_get_contents("http://172.16.106.161/Mosque/GetMosquesAsJson/$id");
         $json = json_decode($dnm, true);
 
+
         $filteredMosques = [];
-        foreach ($json as $camii) {
-            if ($camii['Id'] == $id) {
-                $ilceid = $camii['Id'];
-                $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
-                $ilcename = $ilcenameResult[0]->name;
 
 
-                $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
+        $ilceid = $json['TownId'];
 
-                $ilId = $ilIdResult[0]->cityid;
+        $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
+        $ilcename = $ilcenameResult[0]->name;
 
 
-                $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
+        $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
 
-                $ilname = $ilnameResult[0]->isim;
+        $ilId = $ilIdResult[0]->cityid;
 
-                $camii['sehir'] = $ilname;
-                $camii['Town'] = $ilcename;
 
-                $filteredMosques[] = $camii;
-            }
+        $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
 
-        }
+        $ilname = $ilnameResult[0]->isim;
+
+        $json['sehir'] = $ilname;
+        $json['Town'] = $ilcename;
+
+        $filteredMosques[] = $json;
+
+
+
 
 
 
@@ -46,93 +52,92 @@ class CamiServices extends ServiceProvider
         return $filteredMosques;
     }
 
-    public static function filitreleme($city, $town, $name)
+    public static  function filitreleme($city, $town, $name)
     {
-        $dnm = file_get_contents("http://localhost:3000/camiler");
-        $json = json_decode($dnm, true);
         $filteredMosques = [];
-
-        foreach ($json as $dnm) {
-            $ilceid = $dnm['Id'];
-            $ilcename = DB::table('İlceler')->where('cityid', $ilceid)->get();
-            $ilad = DB::table('İlceler')->where('name', $ilceid)->get();
-        }
 
         if ((!empty($city) && !empty($town)) || !empty($name)) {
 
 
             if ($city == null && $town == null) {
+                $url = "http://172.16.106.161/Mosque/GetMosquesByNameAsJson/$name";
+                $dnm = @file_get_contents($url);
+                if ($dnm == false) {
+                    return $filteredMosques;
+                } else {
+                    $json = json_decode($dnm, true);
 
-                $searchName = strtolower(str_replace(' ', '', $name));
+                    foreach ($json as $camii) {
 
-
-                foreach ($json as $camii) {
-                    $ilceid = $camii['Id'];
-
-
-                    $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
-                    $ilcename = $ilcenameResult[0]->name;
-
-
-                    $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
-
-                    $ilId = $ilIdResult[0]->cityid;
+                        $ilceid = $camii['TownId'];
 
 
-                    $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
-                    $ilname = $ilnameResult[0]->isim;
+                        $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
+                        $ilcename = $ilcenameResult[0]->name;
 
-                    $camii['sehir'] = $ilname;
-                    $camii['Town'] = $ilcename;
 
-                    $mosqueName = strtolower(str_replace(' ', '', $camii['Name']));
+                        $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
 
-                    if (strpos($mosqueName, $searchName) !== false) {
+                        $ilId = $ilIdResult[0]->cityid;
+
+
+                        $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
+                        $ilname = $ilnameResult[0]->isim;
+
+                        $camii['sehir'] = $ilname;
+                        $camii['Town'] = $ilcename;
 
                         $filteredMosques[] = $camii;
-
                     }
-                }
 
-                return $filteredMosques;
+                    return $filteredMosques;
+                }
             } else {
-                foreach ($json as $camii) {
-                    $ilceid = $camii['Id'];
+                $url = "http://172.16.106.161/Mosque/GetByTownsMosquesAsJson/$town";
+                $dnm = @file_get_contents($url);
+                if ($dnm == false) {
+                    return $filteredMosques;
+                } else {
+
+                    $json = json_decode($dnm, true);
+                    $filteredMosques = [];
+
+                    foreach ($json as $camii) {
 
 
-                    $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
-                    $ilcename = $ilcenameResult[0]->name;
+
+                        $ilcenameResult = DB::table('İlceler')->where('id', $town)->select('name')->get();
+                        $ilcename = $ilcenameResult[0]->name;
 
 
-                    $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
+                        $ilIdResult = DB::table('İlceler')->where('id', $town)->select('cityid')->get();
 
-                    $ilId = $ilIdResult[0]->cityid;
+                        $ilId = $ilIdResult[0]->cityid;
 
 
-                    $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
-                    $ilname = $ilnameResult[0]->isim;
+                        $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
+                        $ilname = $ilnameResult[0]->isim;
 
-                    $camii['sehir'] = $ilname;
-                    $camii['Town'] = $ilcename;
-                    if ($camii['sehir'] === $city && $camii['Town'] === $town || $camii['Name'] == $name) {
+                        $camii['sehir'] = $ilname;
+                        $camii['Town'] = $ilcename;
+
                         $filteredMosques[] = $camii;
                     }
+
+                    return $filteredMosques;
                 }
-
-                return $filteredMosques;
-
             }
         } else {
 
             return $filteredMosques;
         }
-
     }
 
 
-    public static function getMosquesByCity2()
+    public static  function getMosquesByCity2()
+
     {
-        $dnm = file_get_contents("http://localhost:3000/camiler");
+        $dnm = file_get_contents("http://172.16.106.161/Mosque/GetRandomMosquesAsJson/9");
         $json = json_decode($dnm, true);
 
         //dd($json);
@@ -140,7 +145,46 @@ class CamiServices extends ServiceProvider
         foreach ($json as $camii) {
 
 
-            $ilceid = $camii['Id'];
+            $ilceid = $camii['TownId'];
+
+            $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
+            $ilcename = $ilcenameResult[0]->name;
+
+
+            $ilIdResult = DB::table('İlceler')->where('id', $ilceid)->select('cityid')->get();
+
+            $ilId = $ilIdResult[0]->cityid;
+
+
+            $ilnameResult = DB::table('il')->where('il_no', $ilId)->select('isim')->get();
+
+            $ilname = $ilnameResult[0]->isim;
+
+            $camii['sehir'] = $ilname;
+            $camii['Town'] = $ilcename;
+
+            $filteredMosques[] = $camii;
+        }
+
+        return $filteredMosques;
+    }
+    public static  function filitreleme2($il_no)
+
+    {
+        $dnm = file_get_contents("http://172.16.106.161/Mosque/GetByCitiesMosquesAsJson/$il_no");
+        $json = json_decode($dnm, true);
+        $filteredMosques=[];
+
+        if ($dnm == FALSE) {
+            return $filteredMosques;
+        } else {
+
+
+        $filteredMosques = [];
+        foreach ($json as $camii) {
+
+
+            $ilceid = $camii['TownId'];
 
             $ilcenameResult = DB::table('İlceler')->where('id', $ilceid)->select('name')->get();
             $ilcename = $ilcenameResult[0]->name;
@@ -160,12 +204,9 @@ class CamiServices extends ServiceProvider
 
             $filteredMosques[] = $camii;
 
-
         }
-
 
         return $filteredMosques;
     }
-
-
+}
 }

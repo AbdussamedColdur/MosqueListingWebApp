@@ -41,26 +41,51 @@ class Camii extends Controller
     public function goster(Request $request)
     {
         $data = $request->all();
+
         if (!empty($data)) {
+
             if ((!empty($data['il']) && !empty($data['ilce']))) {
-                $sehir = $data['il'];
-                $ilce = $data['ilce'];
-                $isim = $data['ad'];
-                $camiler = CamiServices::filitreleme($sehir, $ilce, $isim);
-                $this->storeLog();
-                return view('layouts.index', ['camiler' => $camiler]);
+                if ($data['ilce'] == "ilce secin") {
+                    $il = $data['il'];
+                    $il_no = DB::table("il")->where('isim', 'like', "$il")->select('il_no')->get();
+                    $ilno = $il_no[0]->il_no;
+                    $camiler = CamiServices::filitreleme2($ilno);
+
+                    return view('layouts.index', ['camiler' => $camiler]);
+                } else {
+
+                    $ilce = $data['ilce'];
+                    $ilce = DB::table("İlceler")->where('name', 'like', "$ilce")->select('id')->get();
+
+                    $ilceid = $ilce[0]->id;
+
+                    $sehir = $data['il'];
+
+                    $isim = $data['ad'];
+
+                    $camiler = CamiServices::filitreleme($sehir, $ilceid, $isim);
+
+
+                    return view('layouts.index', ['camiler' => $camiler]);
+                }
             } else {
                 $sehir = null;
                 $ilce = null;
                 $isim = $data['ad'];
+
                 $camiler = CamiServices::filitreleme($sehir, $ilce, $isim);
-                $this->storeLog();
+
                 return view('layouts.index', ['camiler' => $camiler]);
+
             }
         } else {
-            $this->storeLog();
+
+
             return view('layouts.index');
+
+
         }
+
 
     }
 
